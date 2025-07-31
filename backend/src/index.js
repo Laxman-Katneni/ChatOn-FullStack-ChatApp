@@ -36,7 +36,7 @@ app.use("/api/auth", authRoutes); // Authentication
 app.use("/api/messages", messageRoutes); // Messages
 
 // If we are in production, go ahead and make the dist folder our static assets/ using static middleware from express
-
+/*
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -45,7 +45,19 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
     // serving both api and the react application under the same place
   });
+}*/
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.join(__dirname, "client-build");
+  console.log("⚡ Serving React from:", clientPath);
+
+  app.use(express.static(clientPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
 }
+
+
 
 server.listen(PORT, () => {
   console.log("Server is running on port: " + PORT);
