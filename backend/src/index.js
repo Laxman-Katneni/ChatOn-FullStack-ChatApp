@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser"; // To be able to grab the token from t
 import messageRoutes from "./routes/message.route.js";
 import cors from "cors";
 import { app, server } from "./lib/socket.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 import path from "path"; // For Deployment
 dotenv.config();
@@ -13,7 +15,9 @@ dotenv.config();
 //const app = express(); Removing as created one in socket.js
 
 const PORT = process.env.PORT;
-const __dirname = path.resolve();
+//const __dirname = path.resolve(); Error while deploying
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 //app.use(express.json()); // Middleware to allow extracting the json data from the body
 // PayloadTooLargeError: request entity too large // as by default, max limit is 100kb, which is kinda small for images
