@@ -31,9 +31,21 @@ app.use(
     credentials: true, // To allow cookies or authorization headers
   })
 );
+try {
+  console.log("⏳ Mounting /api/auth");
+  app.use("/api/auth", authRoutes);
+  console.log("✅ Mounted /api/auth");
+} catch (err) {
+  console.error("🔥 Error mounting /api/auth", err);
+}
 
-app.use("/api/auth", authRoutes); // Authentication
-app.use("/api/messages", messageRoutes); // Messages
+try {
+  console.log("⏳ Mounting /api/messages");
+  app.use("/api/messages", messageRoutes);
+  console.log("✅ Mounted /api/messages");
+} catch (err) {
+  console.error("🔥 Error mounting /api/messages", err);
+}
 
 // If we are in production, go ahead and make the dist folder our static assets/ using static middleware from express
 /*
