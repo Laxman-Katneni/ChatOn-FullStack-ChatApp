@@ -8,6 +8,8 @@ import cors from "cors";
 import { app, server } from "./lib/socket.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import fs from "fs";
+
 
 import path from "path"; // For Deployment
 dotenv.config();
@@ -60,15 +62,22 @@ if (process.env.NODE_ENV === "production") {
 }*/
 if (process.env.NODE_ENV === "production") {
   const clientPath = path.join(__dirname, "../client-build");
-
   console.log("⚡ Serving React from:", clientPath);
 
   app.use(express.static(clientPath));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(clientPath, "index.html"));
-});
 
+  app.get("*", (req, res) => {
+    const indexFile = path.join(clientPath, "index.html");
+
+    if (fs.existsSync(indexFile)) {
+      res.sendFile(indexFile);
+    } else {
+      console.error("❌ index.html does not exist at:", indexFile);
+      res.status(500).send("index.html not found.");
+    }
+  });
 }
+
 
 
 
