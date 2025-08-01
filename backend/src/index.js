@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   // If we visit any route than this, see the react application
-  app.get("*", (req, res) => {
+  app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
     // serving both api and the react application under the same place
   });
